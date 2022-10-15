@@ -23,24 +23,25 @@ import _ from 'lodash';
      return result;
   };
       
-  const stringify = (data, mergedData, statesData) => {
-
-    const currerntEntries = _.orderBy(Object.keys(mergedData));
+  const stringify = (data1,  data2) => {
+    const statesData = getStates(data1, data2);
+    const mergedData = Object.assign({}, data1, data2); 
+    const sortedKeys = _.orderBy(Object.keys(mergedData));
     let result = '{\n';
     
-    currerntEntries.map((key) => { 
+    sortedKeys.forEach((key) => { 
   
       const state = statesData[key];
       
       if (state === 'unchanged') {
-      result += `   ${key}: ${mergedData[key]}\n`; 
+      result += `  ${key}: ${mergedData[key]}\n`; 
       } else if (state === 'added') {
-      result += ` + ${key}: ${mergedData[key]}\n`;
+      result += `+ ${key}: ${mergedData[key]}\n`;
       } else if (state === 'deleted') {
-        result += ` - ${key}: ${mergedData[key]}\n`;
+        result += `- ${key}: ${mergedData[key]}\n`;
       } else {
-          result += ` - ${key}: ${data[key]}\n`; 
-          result += ` + ${key}: ${mergedData[key]}\n`; 
+          result += `- ${key}: ${data1[key]}\n`; 
+          result += `+ ${key}: ${mergedData[key]}\n`; 
       }
       });
     return `${result}}`;
@@ -60,10 +61,9 @@ program
     const content2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'utf-8');
     const dataOne = JSON.parse(content1);
     const dataTwo = JSON.parse(content2);
-    const statesDataObj = getStates(dataOne, dataTwo);
-    const mergedDataObj = Object.assign({}, dataOne, dataTwo); 
-    console.log(stringify(dataOne, mergedDataObj, statesDataObj));
-    return stringify(dataOne, mergedDataObj, statesDataObj);
+   
+    console.log(stringify(dataOne, dataTwo));
+    return stringify(dataOne, dataTwo);
 
 })
 
