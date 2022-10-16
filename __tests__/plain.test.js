@@ -18,10 +18,9 @@ const firstData = JSON.parse(getFileContent('file1.json'));
 const secondData = JSON.parse(getFileContent('file2.json'));
 console.log(getFileContent('plainDiff.json'));
 
-const expectedData = getFileContent('plainDiff.json').replace(/"|,/g,'');
-
-
+const expectedData = getFileContent('plainDiff.json').replace(/"|,/g,'').trim();
 
 test ('plain stringifily diff', () => {
-    expect(stringify(firstData, secondData)).toBe(expectedData);
+    const actual = stringify(firstData, secondData);
+    expect(actual.trim()).toBe(expectedData);
 });
