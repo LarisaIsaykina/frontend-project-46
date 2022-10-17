@@ -20,7 +20,6 @@ program
     const content2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'utf-8');
     const dataOne = JSON.parse(content1);
     const dataTwo = JSON.parse(content2);
-    console.log(stringify(dataOne, dataTwo));
     return stringify(dataOne, dataTwo);
 
 })

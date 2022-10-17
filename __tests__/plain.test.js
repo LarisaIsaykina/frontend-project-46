@@ -17,12 +17,12 @@ const getFileContent = (fileName) => {
 const firstData = JSON.parse(getFileContent('file1.json'));
 const secondData = JSON.parse(getFileContent('file2.json'));
 
-const expectedData = getFileContent('plainDiff.json').trim().replace(/"|,/g,'');
+const expectedData = getFileContent('plain.txt').trim();
+
+console.log(expectedData);
 
 test ('plain stringify diff', () => {
     const actual = stringify(firstData, secondData);
     console.log(actual);
-    console.log(expectedData);
-
-    expect(actual).toEqual(expectedData);
+    expect(actual).toBe(expectedData);
 });

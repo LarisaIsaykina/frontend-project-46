@@ -24,19 +24,19 @@ const getStates = (data1, data2) => {
     const sortedKeys = _.orderBy(Object.keys(mergedData));
     let result = '{\n';
     
-    sortedKeys.forEach((key) => { 
+    sortedKeys.map((key) => { 
   
       const state = statesData[key];
       
       if (state === 'unchanged') {
-      result += `      ${key}: ${mergedData[key]}\n`; 
+      result += `  ${key}: ${mergedData[key]}\n`; 
       } else if (state === 'added') {
-      result += `    + ${key}: ${mergedData[key]}\n`;
+      result += `+ ${key}: ${mergedData[key]}\n`;
       } else if (state === 'deleted') {
-        result += `    - ${key}: ${mergedData[key]}\n`;
+        result += `- ${key}: ${mergedData[key]}\n`;
       } else {
-          result += `    - ${key}: ${data1[key]}\n`; 
-          result += `    + ${key}: ${mergedData[key]}\n`; 
+          result += `- ${key}: ${data1[key]}\n`; 
+          result += `+ ${key}: ${mergedData[key]}\n`; 
       }
       });
     return `${result}}`;
