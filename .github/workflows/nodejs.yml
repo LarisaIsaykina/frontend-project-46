@@ -1,32 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@LarisaIsaykina 
-hexlet-boilerplates
-/
-nodejs-package
-Public template
-Code
-Issues
-1
-Pull requests
-Actions
-Projects
-Security
-Insights
-nodejs-package/.github/workflows/nodejs.yml
-@mikhaylov-ya
-mikhaylov-ya fix codeclimate action version
-Latest commit 0762b3d on 23 Aug
- History
- 9 contributors
-@mokevnin@NikitaNaumenko@corsicanec82@mikhaylov-ya@zhabinka@dzencot@alexandertolchinsky@letzabelin@iFoxMan
-48 lines (42 sloc)  1.26 KB
-
 # Name of workflow
 name: Node CI
 
@@ -65,28 +36,13 @@ jobs:
       - run: make install
       - run: make lint
       - run: make test
-      - name: Test & publish code coverage
-      Publish code coverage on Code Climate
-      https://github.com/paambaati/codeclimate-action
-      uses: paambaati/codeclimate-action@v3.0.0
-      Add Code Climate secret key
-      env:
-      CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
-      with:
-      coverageCommand: make test-coverage
-      debug: true
-Footer
-© 2022 GitHub, Inc.
-Footer navigation
-Terms
-Privacy
-Security
-Status
-Docs
-Contact GitHub
-Pricing
-API
-Training
-Blog
-About
-nodejs-package/nodejs.yml at main · hexlet-boilerplates/nodejs-package
+       name: Test & publish code coverage
+      #   # Publish code coverage on Code Climate
+      #   # https://github.com/paambaati/codeclimate-action
+      #   uses: paambaati/codeclimate-action@v3.0.0
+       # Add Code Climate secret key
+        env:
+        CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+        coverageCommand: make test-coverage
+        debug: true
