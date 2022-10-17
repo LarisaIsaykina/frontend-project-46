@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1665975912290" clover="3.2.0">
-  <project timestamp="1665975912291" name="All files">
+<coverage generated="1666025144691" clover="3.2.0">
+  <project timestamp="1666025144692" name="All files">
     <metrics statements="44" coveredstatements="44" conditionals="18" coveredconditionals="18" methods="2" coveredmethods="2" elements="64" coveredelements="64" complexity="0" loc="44" ncloc="44" packages="1" files="1" classes="1"/>
     <file name="index.js" path="/mnt/c/users/isayk/frontend-project-46/index.js">
       <metrics statements="44" coveredstatements="44" conditionals="18" coveredconditionals="18" methods="2" coveredmethods="2"/>
