@@ -5,6 +5,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import parse from '../parsers.js'
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -14,15 +15,24 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 const getFileContent = (fileName) => {
     return readFileSync(getFixturePath(fileName), 'utf-8');
 };
-const firstData = JSON.parse(getFileContent('file1.json'));
-const secondData = JSON.parse(getFileContent('file2.json'));
+const firstJson = parse(getFileContent('file1.json'), 'file1.json');
+const secondJson = parse(getFileContent('file2.json'),  'file2.json');
 
-const expectedData = getFileContent('plain.txt').trim();
+const firstYaml =  parse(getFileContent('file1.yml'),  'file1.yml');
 
-console.log(expectedData);
+const secondYaml =  parse(getFileContent('file2.yml'),  'file2.yml');
 
-test ('plain stringify diff', () => {
-    const actual = stringify(firstData, secondData);
-    console.log(actual);
-    expect(actual).toBe(expectedData);
+const expectedPlain = getFileContent('plain.txt').trim();
+
+test ('plain .json stringify diff', () => {
+    const actual = stringify(firstJson, secondJson);
+    expect(actual).toBe(expectedPlain);
 });
+
+test ('plain .yaml stringify diff', () => {
+    console.log(firstYaml);
+    const actual = stringify(firstYaml, secondYaml);
+    expect(actual).toBe(expectedPlain);
+});
+
+

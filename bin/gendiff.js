@@ -4,6 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import process from 'node:process';
 import stringify from '../index.js';
+import parse from '../parsers.js';
 
   
 const program = new Command();
@@ -18,8 +19,10 @@ program
  
     const content1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'utf-8');
     const content2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'utf-8');
-    const dataOne = JSON.parse(content1);
-    const dataTwo = JSON.parse(content2);
+
+    const dataOne = parse(content1, filepath1);
+    const dataTwo = parse(content2, filepath2);
+    console.log(stringify(dataOne, dataTwo));
     return stringify(dataOne, dataTwo);
 
 })
