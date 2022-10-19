@@ -1,55 +1,23 @@
 import _ from 'lodash';
 
-const getDiff = (data1, data2) => {
-   const keys1 = Object.keys(data1);
-    const keys2 = Object.keys(data2);
-    const mergedKeys = Array.from(new Set([...keys1, ...keys2]));
-  
-   
-    mergedKeys.forEach((key) => {
-      if (!Object.hasOwn(data1, key)) {
-        result[`+${key}`] = data2[key];
-      } else if (!Object.hasOwn(data2, key)) {
-        result[`-${key}`] = data1[key];
-      } else if (data1[key] === data2[key]) {
-        result[key] = data1[key];
-      } else {
-        if (!_.isObject(data2[key]) && !Array.isArray(data2[key])) {
-          result[`-${key}`] = data1[key];
-          result[`+${key}`] = data2[key];
-        } else {
-          const value1 = data1[key];
-          const value2 = data2[key];
-          result[key] = getDiff(value1, value2);
-        }
-      } 
-      });
-     console.log(result);
-     return result;
-  };
-      
-  const  stringify = (diffTree) => {
-    const sortedKeys = _.orderBy(Object.keys(diffTree));
-    let result = '{\n';
-    
-    sortedKeys.map((key) => { 
-  
-      const state = statesData[key];
-      
-      if (state === 'unchanged') {
-      result += `  ${key}: ${mergedData[key]}\n`; 
-      } else if (state === 'added') {
-      result += `+ ${key}: ${mergedData[key]}\n`;
-      } else if (state === 'deleted') {
-        result += `- ${key}: ${mergedData[key]}\n`;
-      } else {
-          result += `- ${key}: ${data1[key]}\n`; 
-          result += `+ ${key}: ${mergedData[key]}\n`; 
+const genDiff = (data1, data2) => {
+  const dataKeys = _.union(_.keys(data1), _.keys(data2));
+  const addNode = (key) => {
+    if (!_.has(data1, key)) {
+      return { name: key, status: 'added', value: data2[key] };
+    }
+    if (!_.has(data2, key)) {
+      return { name: key, status: 'deleted', value: data1[key] };
+    }
+    if (data1[key] === data2[key]) {
+      return { name: key, status: 'unchanged', value: data1[key] };
+    }
+    return (!_.isObject(data1[key]) || !_.isObject(data2[key]))
+      ? {
+        name: key, status: 'changed', previousValue: data1[key], currentValue: data2[key],
       }
-      });
-    return `${result}}`;
+      : { name: key, status: 'nested', children: genDiff(data1[key], data2[key]) };
   };
-
-
-
-export default stringify;
+  return dataKeys.map((key) => addNode(key));
+};
+export default genDiff;
