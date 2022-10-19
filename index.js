@@ -1,27 +1,35 @@
 import _ from 'lodash';
 
-const getStates = (data1, data2) => {
-    const result = {};
-    const keys1 = Object.keys(data1);
+const getDiff = (data1, data2) => {
+   const keys1 = Object.keys(data1);
     const keys2 = Object.keys(data2);
     const mergedKeys = Array.from(new Set([...keys1, ...keys2]));
   
+   
     mergedKeys.forEach((key) => {
-      if (Object.hasOwn(data1, key) && !Object.hasOwn(data2, key)) {
-        result[key] = 'deleted';
-      } else if (Object.hasOwn(data1, key) && Object.hasOwn(data2, key)) {
-        result[key] = (data1[key] === data2[key]) ? 'unchanged' : 'changed';
+      if (!Object.hasOwn(data1, key)) {
+        result[`+${key}`] = data2[key];
+      } else if (!Object.hasOwn(data2, key)) {
+        result[`-${key}`] = data1[key];
+      } else if (data1[key] === data2[key]) {
+        result[key] = data1[key];
       } else {
-        result[key] = 'added';
-      }
-    });
+        if (!_.isObject(data2[key]) && !Array.isArray(data2[key])) {
+          result[`-${key}`] = data1[key];
+          result[`+${key}`] = data2[key];
+        } else {
+          const value1 = data1[key];
+          const value2 = data2[key];
+          result[key] = getDiff(value1, value2);
+        }
+      } 
+      });
+     console.log(result);
      return result;
   };
       
-  const stringify = (data1,  data2) => {
-    const statesData = getStates(data1, data2);
-    const mergedData = Object.assign({}, data1, data2); 
-    const sortedKeys = _.orderBy(Object.keys(mergedData));
+  const  stringify = (diffTree) => {
+    const sortedKeys = _.orderBy(Object.keys(diffTree));
     let result = '{\n';
     
     sortedKeys.map((key) => { 
@@ -41,4 +49,7 @@ const getStates = (data1, data2) => {
       });
     return `${result}}`;
   };
+
+
+
 export default stringify;
