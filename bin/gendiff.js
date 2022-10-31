@@ -15,9 +15,8 @@ program
 .name('gendiff')
 .description( 'Compares two configuration files and shows a difference.')
 .version('0.0.1', '-V, --version', 'output the version number')
-.option('-f, --format <type>', 'output format')
+.option('-f, --format <type>', 'output format', stylish)
 .arguments('<filepath1> <filepath2>' )
-. option('-f, --format [type]', 'output format')
 .action((filepath1, filepath2) => {
  
     const content1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'utf-8');
@@ -25,7 +24,7 @@ program
 
     const dataOne = parse(content1, filepath1);
     const dataTwo = parse(content2, filepath2);
-    console.log(genDiff(dataOne, dataTwo, program.format));
+    console.log(JSON.stringify(genDiff(dataOne, dataTwo, program.format), null, '  '));
 
 })
 

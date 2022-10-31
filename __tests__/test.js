@@ -19,9 +19,7 @@ const getFileContent = (fileName) => {
 const firstJson = parse(getFileContent('file1.json'), 'file1.json');
 const secondJson = parse(getFileContent('file2.json'),  'file2.json');
 
-const firstYaml =  parse(getFileContent('file1.yml'),  'file1.yml');
 
-const secondYaml =  parse(getFileContent('file2.yml'),  'file2.yml');
 
 const expectedPlain = getFileContent('nested.txt').trim();
 
