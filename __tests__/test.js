@@ -15,7 +15,8 @@ const getFixturePath = (filename) => path.join(__dirname, '..', '__fixtures__', 
 
 const getFileContent = (fileName) => {
     return readFileSync(getFixturePath(fileName), 'utf-8');
-};
+}; 
+
 const firstJson = parse(getFileContent('file1.json'), 'file1.json');
 const secondJson = parse(getFileContent('file2.json'),  'file2.json');
 
