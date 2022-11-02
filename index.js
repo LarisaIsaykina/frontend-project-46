@@ -2,12 +2,13 @@ import _ from 'lodash';
 import fs from 'fs';
 import path from 'path';
 import process from 'node:process';
-import parse from '../parsers.js';
+import parse from './parsers.js';
 
 
 const genDiff = (filepath1, filepath2) => {
-
+console.log(path.resolve(process.cwd(), filepath1));
   const content1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'utf-8');
+  
   const content2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'utf-8');
 
   const data1 = parse(content1, filepath1);
