@@ -7,6 +7,7 @@ import { dirname } from 'path';
 import parse from '../parsers.js'
 import genDiff from '../index.js'
 import stylish from '../stylish.js'
+import plain from '../plain.js';
 
 
 const __filename = fileURLToPath(import.meta.url);
@@ -17,22 +18,22 @@ const getFileContent = (fileName) => {
     return readFileSync(getFixturePath(fileName), 'utf-8');
 }; 
 
-const firstJson = parse(getFileContent('file1.json'), 'file1.json');
-const secondJson = parse(getFileContent('file2.json'),  'file2.json');
+const expected1 = getFileContent('nested.txt').trim();
+const expected2 = getFileContent('plain.txt').trim();
+const expected3 = getFileContent('json.txt').trim();
 
 
-
-const expectedPlain = getFileContent('nested.txt').trim();
-
-test ('plain .json stringify diff', () => {
-    const actual = stylish(genDiff(firstJson, secondJson));
-    expect(actual).toBe(expectedPlain);
+test ('stylish diff', () => {
+    const actual = genDiff(getFixturePath(path1), getFixturePath(path2), 'stylish');
+    expect(actual).toBe(expected1);
 });
 
-//test ('plain .yaml stringify diff', () => {
-   // console.log(firstYaml);
-   // const actual = stringify(firstYaml, secondYaml);
-   // expect(actual).toBe(expectedPlain);
+test ('plain diff', () => {
+    const actual = genDiff((getFixturePath(path1), getFixturePath(path2), 'plain'));
+    expect(actual).toBe(expected2);
+});
+
+//test ('json diff', () => {
+    //const actual = plain(genDiff(firstYml, secondYml, 'json'));
+   // expect(actual).toBe(expected3);
 //});
-
-

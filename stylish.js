@@ -1,43 +1,37 @@
-const stylish = (tree, replacer = ' ', spacesCount = 1) => {
-  const iter = (node, depth) => {
+import _ from 'lodash';
 
-    if (typeof node !== 'object') {
-      return `${node}`;
-    }
+const symbols = {
+  unchanged: ' ',
+  added: '+',
+  deleted: '-',
+  nested: ' ',
+};
 
-    const indentSize = depth * spacesCount;
-    console.log(indentSize);
+const indent = 4;
+const setIndent = (depth, spaces = 2) => ' '.repeat(depth * indent - spaces);
 
-    const currentIndent = replacer.repeat(indentSize);
-    const bracketIndent = replacer.repeat(indentSize - spacesCount);
-    let lines = '';
-    const value = node.value;
-    const previousValue = node.previousValue;
-    const currentValue = node.currentValue;
+const stringify = (value, depth) => {
+  if (!_.isObject(value)) return value;
+  return `{\n${Object.entries(value).map(([key, val]) => `${setIndent(depth)}  ${key}: ${stringify(val,
+    depth + 1)}`).join('\n')}\n${setIndent(depth - 1)}  }`;
+};
 
-    if (node.status === 'added') {
-      lines += `${currentIndent}+${node.name}: ${iter(value, depth + 1)}`
-    } if (node.status === 'deleted') {
-      lines += `${currentIndent}-${node.name}: ${iter(value, depth + 1)}`
-    } if (node.status === 'unchanged') {
-      lines += `${currentIndent + 1}${node.name}: ${iter(value, depth + 1)}`
-    }
-    if (node.status === 'changed') {
-      lines += `${currentIndent}${node.name}: -${iter(previousValue, depth + 1)}\n${currentIndent}+${iter(currentValue, depth + 1)}`
-    } else {
-      lines += `${currentIndent}${node.name}: ${node.children.map((child) => {
-        iter(child, depth + 1)})}`;
-    }
+const renderAst = (elem, depth) => {
+  switch (elem.status) {
+    case 'added':
+    case 'deleted':
+    case 'unchanged':
+      return `${setIndent(depth)}${symbols[elem.status]} ${elem.key}: ${stringify(elem.value, depth + 1)}`;
+    case 'updated':
+      return `${setIndent(depth)}${symbols.removed} ${elem.key}: ${stringify(elem.valueBefore,
+        depth + 1)}\n${setIndent(depth)}${symbols.added} ${elem.key}: ${stringify(elem.valueAfter, depth + 1)}`;
+    case 'nested':
+      return `${setIndent(depth)}${symbols[elem.status]} ${elem.key}: {\n${elem.children
+        .map((element) => renderAst(element, depth + 1)).join('\n')}\n  ${setIndent(depth)}}`;
+    default:
+      throw new Error('Unknown state!');
+  }
+};
 
-    return `{${lines}${bracketIndent}\n}`;
-  };
-    const pieces = tree.map((branch) => {
-      iter(branch, 1);
-    });
-  
-  return`{\n${pieces.join('\n')}`;
-
-  };
-
-    
+const stylish = (astDifference) => `{\n${astDifference.map((elem) => renderAst(elem, 1)).join('\n')}\n}`;
 export default stylish;

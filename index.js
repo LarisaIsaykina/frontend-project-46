@@ -1,6 +1,18 @@
 import _ from 'lodash';
+import fs from 'fs';
+import path from 'path';
+import process from 'node:process';
+import parse from '../parsers.js';
 
-const genDiff = (data1, data2) => {
+
+const genDiff = (filepath1, filepath2) => {
+
+  const content1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'utf-8');
+  const content2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'utf-8');
+
+  const data1 = parse(content1, filepath1);
+  const data2 = parse(content2, filepath2);
+
   const dataKeys = _.union(_.keys(data1), _.keys(data2));
   const addNode = (key) => {
     if (!_.has(data1, key)) {

@@ -1,12 +1,11 @@
 #!/usr/bin/env node
 import {  Command } from 'commander';
-import fs from 'fs';
-import path from 'path';
-import process from 'node:process';
-import genDiff  from '../index.js';
-import stylish from '../stylish.js'
 
-import parse from '../parsers.js';
+import genDiff  from '../index.js';
+import stylish from '../stylish.js';
+import plain from '../plain.js';
+import json from '../json.js';
+
 
 
 const program = new Command();
@@ -17,14 +16,9 @@ program
 .version('0.0.1', '-V, --version', 'output the version number')
 .option('-f, --format <type>', 'output format', stylish)
 .arguments('<filepath1> <filepath2>' )
-.action((filepath1, filepath2) => {
+.action((filepath1, filepath2, options) => {
  
-    const content1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'utf-8');
-    const content2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'utf-8');
-
-    const dataOne = parse(content1, filepath1);
-    const dataTwo = parse(content2, filepath2);
-    console.log(JSON.stringify(genDiff(dataOne, dataTwo, program.format), null, '  '));
+    console.log(genDiff(filepath1, filepath2, options.format));
 
 })
 
