@@ -1,5 +1,5 @@
-const parseToJson = (tree) => {
+const json = (tree) => {
     return JSON.stringify(tree, null, '  ');
 };
 
-export default parseToJson;
+export default json;

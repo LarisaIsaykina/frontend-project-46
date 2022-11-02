@@ -4,10 +4,8 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import parse from '../parsers.js'
 import genDiff from '../index.js'
-import stylish from '../stylish.js'
-import plain from '../plain.js';
+
 
 
 const __filename = fileURLToPath(import.meta.url);

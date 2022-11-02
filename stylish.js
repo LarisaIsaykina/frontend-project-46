@@ -21,12 +21,12 @@ const renderAst = (elem, depth) => {
     case 'added':
     case 'deleted':
     case 'unchanged':
-      return `${setIndent(depth)}${symbols[elem.status]} ${elem.key}: ${stringify(elem.value, depth + 1)}`;
-    case 'updated':
-      return `${setIndent(depth)}${symbols.removed} ${elem.key}: ${stringify(elem.valueBefore,
-        depth + 1)}\n${setIndent(depth)}${symbols.added} ${elem.key}: ${stringify(elem.valueAfter, depth + 1)}`;
+      return `${setIndent(depth)}${symbols[elem.status]} ${elem.name}: ${stringify(elem.value, depth + 1)}`;
+    case 'changed':
+      return `${setIndent(depth)}${symbols.deleted} ${elem.name}: ${stringify(elem.previousValue,
+        depth + 1)}\n${setIndent(depth)}${symbols.added} ${elem.name}: ${stringify(elem.currentValue, depth + 1)}`;
     case 'nested':
-      return `${setIndent(depth)}${symbols[elem.status]} ${elem.key}: {\n${elem.children
+      return `${setIndent(depth)}${symbols[elem.status]} ${elem.name}: {\n${elem.children
         .map((element) => renderAst(element, depth + 1)).join('\n')}\n  ${setIndent(depth)}}`;
     default:
       throw new Error('Unknown state!');
