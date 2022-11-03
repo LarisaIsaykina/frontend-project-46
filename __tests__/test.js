@@ -4,7 +4,7 @@ import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
-import genDiff from '../index.js'
+import genDiff from '../factory.js'
 
 
 
