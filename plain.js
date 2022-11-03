@@ -9,15 +9,15 @@ const stringify = (value) => {
 };
 
 const plain = (ast, key = []) => _.compact(ast.map((elem) => {
-  switch (elem.type) {
+  switch (elem.state) {
     case 'nested':
-      return plain(elem.children, [...key, elem.key]);
+      return plain(elem.children, [...key, elem.name]);
     case 'added':
-      return `Property '${[...key, elem.key].join('.')}' was added with value: ${stringify(elem.value)}`;
+      return `Property '${[...key, elem.name].join('.')}' was added with value: ${stringify(elem.value)}`;
     case 'deleted':
-      return `Property '${[...key, elem.key].join('.')}' was removed`;
+      return `Property '${[...key, elem.name].join('.')}' was removed`;
     case 'changed':
-      return `Property '${[...key, elem.key].join('.')}' was updated. From ${stringify(elem.valuePrevious)} to ${stringify(elem.valueNext)}`;
+      return `Property '${[...key, elem.name].join('.')}' was updated. From ${stringify(elem.previousValue)} to ${stringify(elem.currentValue)}`;
     default:
       return '';
   }

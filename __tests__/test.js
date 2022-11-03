@@ -20,7 +20,7 @@ const absolutePath2 = getFixturePath('file2.yml');
 
 const expected1 = getFileContent('nested.txt').trim();
 const expected2 = getFileContent('plain.txt').trim();
-//const expected3 = getFileContent('json.txt').trim();
+const expected3 = getFileContent('json.txt').trim();
 
 
 test ('stylish diff', () => {
@@ -34,7 +34,7 @@ test ('plain diff', () => {
     expect(actual).toBe(expected2);
 });
 
-//test ('json diff', () => {
-    //const actual = plain(genDiff(firstYml, secondYml, 'json'));
-   // expect(actual).toBe(expected3);
-//});
+test ('json diff', () => {
+    const actual = genDiff(absolutePath1, absolutePath2, 'json');
+    expect(actual).toBe(expected3);
+});
