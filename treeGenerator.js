@@ -1,6 +1,5 @@
 import _ from 'lodash';
 
-
 const generateTree = (fileContent1, fileContent2) => {
   const iter = (array1, array2, name) => {
     if (!_.has(array1, name)) return { name, state: 'added', value: array2[name] };
@@ -9,7 +8,8 @@ const generateTree = (fileContent1, fileContent2) => {
       return { name, state: 'nested', children: generateTree(array1[name], array2[name]) };
     }
     if (array1[name] !== array2[name]) {
-      return { name, state: 'changed', previousValue: array1[name], currentValue: array2[name],
+      return {
+        name, state: 'changed', previousValue: array1[name], currentValue: array2[name],
       };
     }
     return { name, state: 'unchanged', value: array1[name] };
