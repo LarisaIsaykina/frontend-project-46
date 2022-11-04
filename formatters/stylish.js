@@ -12,11 +12,13 @@ const setIndent = (depth, spaces = 2) => ' '.repeat(depth * indent - spaces);
 
 const stringify = (value, depth) => {
   if (!_.isObject(value)) return value;
-  return `{\n${Object.entries(value).map(([key, val]) => `${setIndent(depth)}  ${key}: ${stringify(val,
-    depth + 1)}`).join('\n')}\n${setIndent(depth - 1)}  }`;
+  return `{\n${Object.entries(value).map(
+    ([key, val]) => `${setIndent(depth)}  ${key}: ${stringify(val,
+    depth + 1)}`
+    ).join('\n')}\n${setIndent(depth - 1)}  }`;
 };
 
-const renderAst = (elem, depth) => {
+const renderTree = (elem, depth) => {
   switch (elem.state) {
     case 'added':
     case 'deleted':
@@ -27,11 +29,12 @@ const renderAst = (elem, depth) => {
         depth + 1)}\n${setIndent(depth)}${symbols.added} ${elem.name}: ${stringify(elem.currentValue, depth + 1)}`;
     case 'nested':
       return `${setIndent(depth)}${symbols[elem.state]} ${elem.name}: {\n${elem.children
-        .map((element) => renderAst(element, depth + 1)).join('\n')}\n  ${setIndent(depth)}}`;
+        .map((element) => renderTree(element, depth + 1)).join('\n')}\n  ${setIndent(depth)}}`;
     default:
       throw new Error('Unknown state!');
   }
 };
 
-const stylish = (astDifference) => `{\n${astDifference.map((elem) => renderAst(elem, 1)).join('\n')}\n}`;
+const stylish = (tree) => `{\n${tree.map((elem) => renderTree(elem, 1)).join('\n')}\n}`;
+
 export default stylish;

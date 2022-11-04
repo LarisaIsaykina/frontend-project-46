@@ -7,9 +7,7 @@ const render = (tree, format) => {
         return stylish(tree);
     } if (format === 'plain') {
         return plain(tree);
-    } else {
-        return json(tree);
-    }
+    } return json(tree);
 };
 
 export default render;
