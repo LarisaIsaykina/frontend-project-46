@@ -13,8 +13,7 @@ const setIndent = (depth, spaces = 2) => ' '.repeat(depth * indent - spaces);
 const stringify = (value, depth) => {
   if (!_.isObject(value)) return value;
   return `{\n${Object.entries(value).map(([key, val]) => `${setIndent(depth)}  ${key}: ${stringify(val,
-    depth + 1)}`
-    ).join('\n')}\n${setIndent(depth - 1)}  }`;
+    depth + 1)}`).join('\n')}\n${setIndent(depth - 1)}  }`;
 };
 
 const renderAst = (elem, depth) => {
