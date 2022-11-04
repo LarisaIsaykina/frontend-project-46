@@ -7,7 +7,7 @@ import generateTree from './treeGenerator.js';
 import render from './formatters/index.js';
 
 
-const genDiff = (filepath1, filepath2, format) => {
+const genDiff = (filepath1, filepath2, format = 'stylish') => {
   const content1 = fs.readFileSync(path.resolve(process.cwd(), filepath1), 'utf-8');
   const content2 = fs.readFileSync(path.resolve(process.cwd(), filepath2), 'utf-8');
   const data1 = parse(content1, filepath1);

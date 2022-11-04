@@ -18,7 +18,7 @@ const getFileContent = (fileName) => {
 const absolutePath1 = getFixturePath('file1.json');
 const absolutePath2 = getFixturePath('file2.yml');
 
-const expected1 = getFileContent('nested.txt').trim();
+const expected1 = getFileContent('stylish.txt').trim();
 const expected2 = getFileContent('plain.txt').trim();
 const expected3 = getFileContent('json.txt').trim();
 
